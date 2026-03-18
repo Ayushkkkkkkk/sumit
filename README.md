@@ -6,6 +6,39 @@ A beginner-friendly full-stack web app built with:
 - Backend: Node.js + Express + Prisma + JWT auth
 - Database: SQLite (via Prisma)
 
+## Project Summary
+
+This project is a full-stack personal finance tracker where authenticated users can manage income and expenses, set a monthly budget, and monitor financial health from a dashboard.
+
+### What is included
+
+- Secure authentication (register/login) using JWT
+- Expense tracking with categories
+- Income tracking with source and description
+- Monthly budget setup and updates
+- Dashboard cards for:
+  - total income
+  - total expense
+  - remaining balance
+  - monthly budget
+- Category-wise expense totals table
+- Budget alert status (`normal`, `near_limit`, `over_budget`)
+- Recent expenses and incomes tables
+
+### Main folders
+
+- `backend/`
+  - `src/controllers/`: auth and finance business logic
+  - `src/routes/`: REST API routes
+  - `src/middleware/`: auth, validation, and error handling
+  - `src/algorithms/`: required algorithm files
+  - `prisma/schema.prisma`: database models (`User`, `Expense`, `Income`, `Budget`)
+- `frontend/`
+  - `src/pages/`: `LoginPage`, `DashboardPage`, `AddExpensePage`, `AddIncomePage`
+  - `src/components/`: reusable cards/layout/table
+  - `src/context/`: auth state management
+  - `src/api/client.ts`: API request helper
+
 ## Features
 
 - User registration and login
