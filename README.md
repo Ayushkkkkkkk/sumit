@@ -87,3 +87,4 @@ Frontend runs on: `http://localhost:5173`
 - Passwords are hashed using `bcryptjs`.
 - JWT token is required for protected finance routes.
 # sumit
+# sumit
