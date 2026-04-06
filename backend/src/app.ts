@@ -15,8 +15,8 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRouter);
-app.use("/api", financeRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api", financeRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

@@ -92,6 +92,12 @@ Base URL: `http://localhost:4000/api`
 - `GET /incomes` (auth)
 - `GET /admin/overview` (admin auth)
 
+Admin overview now includes:
+- overall platform totals (users, income, expense, budgets, net flow)
+- budget health breakdown (normal, near limit, over budget, without budget)
+- top expense categories
+- recent unified activity feed
+
 ## Setup
 
 ### 1) Backend

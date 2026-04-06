@@ -45,7 +45,7 @@ export function LoginPage() {
       });
 
       login(data.token, data.user);
-      navigate("/");
+      navigate(data.user.role === "admin" ? "/admin" : "/");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong";
       setError(message);

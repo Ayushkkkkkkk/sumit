@@ -56,7 +56,22 @@ export type AdminOverview = {
     totalExpense: number;
     totalIncome: number;
     totalBudget: number;
+    netFlow: number;
+    records: number;
   };
+  budgetHealth: {
+    normal: number;
+    near_limit: number;
+    over_budget: number;
+    without_budget: number;
+  };
+  topCategories: CategoryTotal[];
+  recentActivity: Array<{
+    type: "expense" | "income";
+    label: string;
+    amount: number;
+    createdAt: string;
+  }>;
   recentExpenses: Expense[];
   recentIncomes: Income[];
 };
