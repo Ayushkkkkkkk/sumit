@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../api/client";
 import { DataTable } from "../components/DataTable";
 import { StatCard } from "../components/StatCard";
@@ -6,31 +7,43 @@ import { useAuth } from "../context/AuthContext";
 import type { AdminOverview } from "../types";
 
 export function AdminPage() {
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
+  const navigate = useNavigate();
   const [data, setData] = useState<AdminOverview | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  useEffect(() => {
-    async function loadOverview() {
-      if (!token) {
-        return;
-      }
-
-      setLoading(true);
-      setError("");
-      try {
-        const response = await apiRequest<AdminOverview>("/admin/overview", { token });
-        setData(response);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load admin overview");
-      } finally {
-        setLoading(false);
-      }
+  const loadOverview = useCallback(async () => {
+    if (!token) {
+      return;
     }
 
+    setLoading(true);
+    setError("");
+    try {
+      const response = await apiRequest<AdminOverview>("/admin/overview", { token });
+      setData(response);
+      setLastUpdated(new Date());
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to load admin overview";
+      setError(message);
+      if (message.toLowerCase().includes("only admin") || message.toLowerCase().includes("invalid")) {
+        logout();
+        navigate("/", { replace: true });
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [token, logout, navigate]);
+
+  useEffect(() => {
     void loadOverview();
-  }, [token]);
+    const intervalId = setInterval(() => {
+      void loadOverview();
+    }, 30000);
+    return () => clearInterval(intervalId);
+  }, [loadOverview]);
 
   if (loading) {
     return <p>Loading admin panel...</p>;
@@ -47,6 +60,12 @@ export function AdminPage() {
   return (
     <div className="dashboard-grid">
       <h2 className="section-title">Admin Panel</h2>
+      <div className="admin-toolbar">
+        <span>Last updated: {lastUpdated ? lastUpdated.toLocaleTimeString() : "-"}</span>
+        <button type="button" className="button small" onClick={() => void loadOverview()}>
+          Refresh
+        </button>
+      </div>
       <section className="stat-grid">
         <StatCard title="Total Users" value={data.totals.users} format="number" />
         <StatCard title="Platform Income" value={data.totals.totalIncome} tone="positive" />

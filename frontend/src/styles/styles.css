@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  color: #1f1a2e;
-  background: #f5f1fb;
+  color: #2f2432;
+  background: #fffaf6;
 }
 
 * {
@@ -11,10 +11,10 @@
 body {
   margin: 0;
   background:
-    radial-gradient(1200px 550px at 0% 0%, #efe6ff 0%, transparent 65%),
-    radial-gradient(900px 500px at 100% 0%, #e5f7f1 0%, transparent 62%),
-    #f8f6fc;
-  color: #251f39;
+    radial-gradient(1200px 550px at 0% 0%, #fbe9ef 0%, transparent 65%),
+    radial-gradient(900px 500px at 100% 0%, #e7f7ef 0%, transparent 62%),
+    #fffaf6;
+  color: #2f2432;
 }
 
 .app-shell {
@@ -28,7 +28,7 @@ body {
   gap: 16px;
   padding: 16px 28px;
   background: rgba(255, 255, 255, 0.82);
-  border-bottom: 1px solid #e5dbf6;
+  border-bottom: 1px solid #f0ded1;
   backdrop-filter: blur(8px);
   position: sticky;
   top: 0;
@@ -36,7 +36,7 @@ body {
 }
 
 .brand {
-  color: #3b2361;
+  color: #5f2a4a;
   text-decoration: none;
   font-weight: 700;
   letter-spacing: 0.2px;
@@ -48,7 +48,7 @@ body {
 }
 
 .nav-links a {
-  color: #5e4a86;
+  color: #6b3d4c;
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 999px;
@@ -56,20 +56,20 @@ body {
 }
 
 .nav-links a:hover {
-  background: #f1e8ff;
+  background: #f8ece5;
 }
 
 .nav-links a.active {
-  color: #2d1f4f;
+  color: #532439;
   font-weight: 600;
-  background: #ebdfff;
+  background: #f5dfeb;
 }
 
 .user-actions {
   display: flex;
   gap: 12px;
   align-items: center;
-  color: #4a3f66;
+  color: #64483f;
   font-weight: 500;
 }
 
@@ -94,10 +94,10 @@ body {
   background: rgba(255, 255, 255, 0.88);
   border-radius: 16px;
   padding: 18px;
-  border: 1px solid #eadff8;
+  border: 1px solid #f0e0d4;
   box-shadow:
-    0 8px 30px rgba(83, 40, 131, 0.07),
-    0 2px 8px rgba(48, 30, 77, 0.05);
+    0 8px 30px rgba(116, 52, 76, 0.08),
+    0 2px 8px rgba(78, 44, 34, 0.06);
   position: relative;
   overflow: hidden;
 }
@@ -109,7 +109,7 @@ body {
   height: 160px;
   right: -50px;
   top: -60px;
-  background: radial-gradient(circle, rgba(186, 160, 240, 0.15), transparent 72%);
+  background: radial-gradient(circle, rgba(231, 186, 209, 0.18), transparent 72%);
   pointer-events: none;
 }
 
@@ -117,19 +117,19 @@ body {
   font-size: 1.62rem;
   margin: 0;
   font-weight: 700;
-  color: #3f2d66;
+  color: #5b2d45;
 }
 
 .stat-card h3 {
   margin-top: 0;
   margin-bottom: 10px;
-  color: #6a5a8c;
+  color: #886057;
   font-size: 0.95rem;
   font-weight: 600;
 }
 
 .stat-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 255, 0.9));
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(255, 244, 239, 0.95));
 }
 
 .stat-card.positive p {
@@ -151,42 +151,42 @@ body {
 .table td {
   text-align: left;
   padding: 11px 12px;
-  border-bottom: 1px solid #efe7fb;
-  color: #33294a;
+  border-bottom: 1px solid #f3e6de;
+  color: #4e2f38;
 }
 
 .table th {
-  background: #fbf8ff;
-  color: #614b86;
+  background: #fff5ef;
+  color: #84514b;
   font-size: 0.88rem;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
 
 .table tr:hover td {
-  background: #fcf8ff;
+  background: #fff8f4;
 }
 
 .empty-cell {
   text-align: center !important;
-  color: #7e719c;
+  color: #95716c;
 }
 
 .button {
   border: 0;
   border-radius: 10px;
   padding: 10px 14px;
-  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  background: linear-gradient(135deg, #a53b67, #8b3a78);
   color: #fff;
   cursor: pointer;
   font-weight: 600;
   transition: transform 0.16s ease, box-shadow 0.16s ease;
-  box-shadow: 0 8px 18px rgba(124, 58, 237, 0.24);
+  box-shadow: 0 8px 18px rgba(165, 59, 103, 0.26);
 }
 
 .button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.28);
+  box-shadow: 0 10px 24px rgba(165, 59, 103, 0.3);
 }
 
 .button.small {
@@ -194,8 +194,8 @@ body {
 }
 
 .button.danger {
-  background: linear-gradient(135deg, #db2777, #be123c);
-  box-shadow: 0 8px 18px rgba(190, 18, 60, 0.22);
+  background: linear-gradient(135deg, #cf3255, #ad1f4b);
+  box-shadow: 0 8px 18px rgba(173, 31, 75, 0.24);
 }
 
 .row-form {
@@ -206,24 +206,24 @@ body {
 
 input {
   width: 100%;
-  border: 1px solid #dbcdf1;
+  border: 1px solid #ead5cb;
   border-radius: 10px;
   padding: 10px 12px;
   margin-top: 4px;
   background: #fff;
-  color: #2b2040;
+  color: #40232b;
 }
 
 input:focus {
   outline: none;
-  border-color: #9f67ef;
-  box-shadow: 0 0 0 3px rgba(159, 103, 239, 0.18);
+  border-color: #b65e70;
+  box-shadow: 0 0 0 3px rgba(182, 94, 112, 0.2);
 }
 
 label {
   display: block;
   margin-bottom: 12px;
-  color: #4f3b74;
+  color: #69443a;
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -275,7 +275,7 @@ label {
   margin-top: 10px;
   border: 0;
   background: transparent;
-  color: #7c3aed;
+  color: #9d355f;
   cursor: pointer;
   font-weight: 600;
 }
@@ -284,8 +284,8 @@ label {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
-  background: #f3eaff;
-  border: 1px solid #e3d3fa;
+  background: #fceee6;
+  border: 1px solid #f0d8cd;
   border-radius: 12px;
   padding: 5px;
   margin-bottom: 14px;
@@ -297,19 +297,19 @@ label {
   border-radius: 8px;
   background: transparent;
   cursor: pointer;
-  color: #5f4a85;
+  color: #7d4f4b;
   font-weight: 600;
 }
 
 .segmented-btn.active {
   background: #ffffff;
-  color: #3d2a65;
-  box-shadow: 0 4px 10px rgba(86, 44, 135, 0.16);
+  color: #5f2a4a;
+  box-shadow: 0 4px 10px rgba(122, 57, 87, 0.16);
 }
 
 .section-title {
   margin: 0 0 2px;
-  color: #3d2a65;
+  color: #5d2f44;
   font-size: 1.45rem;
 }
 
@@ -330,7 +330,7 @@ label {
 .health-list li {
   display: flex;
   justify-content: space-between;
-  border: 1px solid #eddffb;
+  border: 1px solid #f2dfd3;
   background: #fff;
   border-radius: 10px;
   padding: 9px 11px;
@@ -347,14 +347,23 @@ label {
   grid-template-columns: auto 1fr auto auto;
   gap: 10px;
   align-items: center;
-  border: 1px solid #eadcf8;
+  border: 1px solid #f0ddd1;
   background: #fff;
   border-radius: 10px;
   padding: 10px 12px;
 }
 
 .activity-item small {
-  color: #6f6390;
+  color: #896460;
+}
+
+.admin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -6px;
+  color: #82574d;
+  font-size: 0.92rem;
 }
 
 .badge {
