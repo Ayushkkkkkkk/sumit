@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 export function Layout({ children }: PropsWithChildren) {
   const { user, logout } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   return (
     <div className="app-shell">
@@ -12,12 +13,18 @@ export function Layout({ children }: PropsWithChildren) {
           Expense Tracker
         </Link>
         <nav className="nav-links">
-          <NavLink to="/">Dashboard</NavLink>
-          <NavLink to="/add-expense">Add Expense</NavLink>
-          <NavLink to="/add-income">Add Income</NavLink>
+          {isAdmin ? (
+            <NavLink to="/admin">Admin Panel</NavLink>
+          ) : (
+            <>
+              <NavLink to="/">Dashboard</NavLink>
+              <NavLink to="/add-expense">Add Expense</NavLink>
+              <NavLink to="/add-income">Add Income</NavLink>
+            </>
+          )}
         </nav>
         <div className="user-actions">
-          <span>{user?.name}</span>
+          <span>{user?.name} ({user?.role})</span>
           <button onClick={logout} className="button small danger" type="button">
             Logout
           </button>

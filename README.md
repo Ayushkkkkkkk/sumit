@@ -13,6 +13,7 @@ This project is a full-stack personal finance tracker where authenticated users 
 ### What is included
 
 - Secure authentication (register/login) using JWT
+- Simple admin login and admin panel
 - Expense tracking with categories
 - Income tracking with source and description
 - Monthly budget setup and updates
@@ -24,6 +25,7 @@ This project is a full-stack personal finance tracker where authenticated users 
 - Category-wise expense totals table
 - Budget alert status (`normal`, `near_limit`, `over_budget`)
 - Recent expenses and incomes tables
+- Admin overview cards for users, total income, total expense, and total budgets
 
 ### Main folders
 
@@ -81,12 +83,14 @@ Base URL: `http://localhost:4000/api`
 
 - `POST /auth/register`
 - `POST /auth/login`
+- `POST /auth/admin-login`
 - `POST /expenses` (auth)
 - `POST /incomes` (auth)
 - `PUT /budget` (auth)
 - `GET /dashboard` (auth)
 - `GET /expenses` (auth)
 - `GET /incomes` (auth)
+- `GET /admin/overview` (admin auth)
 
 ## Setup
 

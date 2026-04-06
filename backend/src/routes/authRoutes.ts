@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { login, register } from "../controllers/authController.js";
+import { adminLogin, login, register } from "../controllers/authController.js";
 import { validateBody } from "../middleware/validate.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -19,5 +19,6 @@ const loginSchema = z.object({
 
 authRouter.post("/register", validateBody(registerSchema), asyncHandler(register));
 authRouter.post("/login", validateBody(loginSchema), asyncHandler(login));
+authRouter.post("/admin-login", validateBody(loginSchema), asyncHandler(adminLogin));
 
 export default authRouter;

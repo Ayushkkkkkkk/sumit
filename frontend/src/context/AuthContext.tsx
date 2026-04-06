@@ -18,7 +18,21 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
   const [user, setUser] = useState<User | null>(() => {
     const raw = localStorage.getItem(USER_KEY);
-    return raw ? (JSON.parse(raw) as User) : null;
+    if (!raw) {
+      return null;
+    }
+
+    const parsed = JSON.parse(raw) as Partial<User>;
+    if (!parsed.email || !parsed.name) {
+      return null;
+    }
+
+    return {
+      id: parsed.id ?? 0,
+      name: parsed.name,
+      email: parsed.email,
+      role: parsed.role === "admin" ? "admin" : "user"
+    };
   });
 
   const value = useMemo<AuthContextValue>(

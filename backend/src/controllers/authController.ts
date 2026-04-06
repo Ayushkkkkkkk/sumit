@@ -3,13 +3,15 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../utils/prisma.js";
 
-function signToken(userId: number): string {
+type AuthRole = "user" | "admin";
+
+function signToken(params: { role: AuthRole; userId?: number }): string {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
     throw new Error("JWT_SECRET is not configured");
   }
 
-  return jwt.sign({ userId }, secret, { expiresIn: "1d" });
+  return jwt.sign(params, secret, { expiresIn: "1d" });
 }
 
 export async function register(req: Request, res: Response): Promise<void> {
@@ -30,10 +32,10 @@ export async function register(req: Request, res: Response): Promise<void> {
     data: { name, email, password: hashedPassword }
   });
 
-  const token = signToken(user.id);
+  const token = signToken({ role: "user", userId: user.id });
   res.status(201).json({
     token,
-    user: { id: user.id, name: user.name, email: user.email }
+    user: { id: user.id, name: user.name, email: user.email, role: "user" }
   });
 }
 
@@ -55,9 +57,35 @@ export async function login(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const token = signToken(user.id);
+  const token = signToken({ role: "user", userId: user.id });
   res.json({
     token,
-    user: { id: user.id, name: user.name, email: user.email }
+    user: { id: user.id, name: user.name, email: user.email, role: "user" }
+  });
+}
+
+export async function adminLogin(req: Request, res: Response): Promise<void> {
+  const { email, password } = req.body as {
+    email: string;
+    password: string;
+  };
+
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@expense.local";
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "admin123";
+
+  if (email !== adminEmail || password !== adminPassword) {
+    res.status(401).json({ message: "Invalid admin credentials" });
+    return;
+  }
+
+  const token = signToken({ role: "admin" });
+  res.json({
+    token,
+    user: {
+      id: 0,
+      name: "Admin",
+      email: adminEmail,
+      role: "admin"
+    }
   });
 }

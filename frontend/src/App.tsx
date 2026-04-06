@@ -3,10 +3,11 @@ import { Layout } from "./components/Layout";
 import { useAuth } from "./context/AuthContext";
 import { AddExpensePage } from "./pages/AddExpensePage";
 import { AddIncomePage } from "./pages/AddIncomePage";
+import { AdminPage } from "./pages/AdminPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
 
-function ProtectedRoutes() {
+function UserRoutes() {
   return (
     <Layout>
       <Routes>
@@ -19,10 +20,24 @@ function ProtectedRoutes() {
   );
 }
 
+function AdminRoutes() {
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </Layout>
+  );
+}
+
 export default function App() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   if (!token) {
     return <LoginPage />;
   }
-  return <ProtectedRoutes />;
+  if (user?.role === "admin") {
+    return <AdminRoutes />;
+  }
+  return <UserRoutes />;
 }

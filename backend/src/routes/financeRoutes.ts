@@ -8,7 +8,7 @@ import {
   getIncomes,
   setBudget
 } from "../controllers/financeController.js";
-import { requireAuth } from "../middleware/auth.js";
+import { requireAuth, requireUser } from "../middleware/auth.js";
 import { validateBody } from "../middleware/validate.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -31,6 +31,7 @@ const budgetSchema = z.object({
 });
 
 financeRouter.use(requireAuth);
+financeRouter.use(requireUser);
 financeRouter.get("/dashboard", asyncHandler(getDashboard));
 financeRouter.get("/expenses", asyncHandler(getExpenses));
 financeRouter.get("/incomes", asyncHandler(getIncomes));

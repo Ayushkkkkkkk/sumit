@@ -5,8 +5,10 @@ import { useAuth } from "../context/AuthContext";
 import type { AuthResponse } from "../types";
 
 type Mode = "login" | "register";
+type LoginType = "user" | "admin";
 
 export function LoginPage() {
+  const [loginType, setLoginType] = useState<LoginType>("user");
   const [mode, setMode] = useState<Mode>("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,9 +24,14 @@ export function LoginPage() {
     setIsLoading(true);
 
     try {
-      const path = mode === "login" ? "/auth/login" : "/auth/register";
+      const path =
+        loginType === "admin"
+          ? "/auth/admin-login"
+          : mode === "login"
+            ? "/auth/login"
+            : "/auth/register";
       const body =
-        mode === "login"
+        loginType === "admin" || mode === "login"
           ? { email, password }
           : {
               name,
@@ -50,9 +57,29 @@ export function LoginPage() {
   return (
     <div className="auth-wrapper">
       <form className="card auth-card" onSubmit={handleSubmit}>
-        <h2>{mode === "login" ? "Login" : "Create Account"}</h2>
+        <h2>{loginType === "admin" ? "Admin Login" : mode === "login" ? "Login" : "Create Account"}</h2>
 
-        {mode === "register" && (
+        <div className="segmented-control">
+          <button
+            className={loginType === "user" ? "segmented-btn active" : "segmented-btn"}
+            type="button"
+            onClick={() => setLoginType("user")}
+          >
+            User
+          </button>
+          <button
+            className={loginType === "admin" ? "segmented-btn active" : "segmented-btn"}
+            type="button"
+            onClick={() => {
+              setLoginType("admin");
+              setMode("login");
+            }}
+          >
+            Admin
+          </button>
+        </div>
+
+        {loginType === "user" && mode === "register" && (
           <label>
             Name
             <input value={name} onChange={(e) => setName(e.target.value)} required />
@@ -77,16 +104,24 @@ export function LoginPage() {
         {error && <p className="error-text">{error}</p>}
 
         <button className="button" type="submit" disabled={isLoading}>
-          {isLoading ? "Please wait..." : mode === "login" ? "Login" : "Register"}
+          {isLoading
+            ? "Please wait..."
+            : loginType === "admin"
+              ? "Login as Admin"
+              : mode === "login"
+                ? "Login"
+                : "Register"}
         </button>
 
-        <button
-          type="button"
-          className="link-button"
-          onClick={() => setMode((prev) => (prev === "login" ? "register" : "login"))}
-        >
-          {mode === "login" ? "New user? Register here" : "Already a user? Login"}
-        </button>
+        {loginType === "user" && (
+          <button
+            type="button"
+            className="link-button"
+            onClick={() => setMode((prev) => (prev === "login" ? "register" : "login"))}
+          >
+            {mode === "login" ? "New user? Register here" : "Already a user? Login"}
+          </button>
+        )}
       </form>
     </div>
   );

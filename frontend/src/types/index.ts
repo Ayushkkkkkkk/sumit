@@ -2,6 +2,7 @@ export type User = {
   id: number;
   name: string;
   email: string;
+  role: "user" | "admin";
 };
 
 export type AuthResponse = {
@@ -45,6 +46,17 @@ export type DashboardData = {
   };
   categoryTotals: CategoryTotal[];
   budgetAlert: BudgetAlert;
+  recentExpenses: Expense[];
+  recentIncomes: Income[];
+};
+
+export type AdminOverview = {
+  totals: {
+    users: number;
+    totalExpense: number;
+    totalIncome: number;
+    totalBudget: number;
+  };
   recentExpenses: Expense[];
   recentIncomes: Income[];
 };
