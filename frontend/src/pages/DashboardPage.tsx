@@ -86,9 +86,14 @@ export function DashboardPage() {
 
       <section className={`card budget-alert ${budgetStatusClass}`}>
         <h3>Budget Alert</h3>
-        <p>Status: {data.budgetAlert.status.replace("_", " ")}</p>
+        <p>Status: {data.budgetAlert.status.replace(/_/g, " ")}</p>
         <p>
-          Spent ${data.budgetAlert.totalExpense.toFixed(2)} of ${data.budgetAlert.monthlyBudget.toFixed(2)}
+          Month to date: ${data.budgetAlert.monthToDateExpense.toFixed(2)} of{" "}
+          ${data.budgetAlert.monthlyBudget.toFixed(2)} budget
+        </p>
+        <p>
+          Predicted end of month (OLS trend): $
+          {data.budgetAlert.predictedEndOfMonthExpense.toFixed(2)}
         </p>
       </section>
 

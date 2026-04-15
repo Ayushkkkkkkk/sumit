@@ -8,17 +8,65 @@ export type CategoryTotal = {
   total: number;
 };
 
-// Algorithm 1: Group expenses by category and total each category amount.
-export function calculateCategoryTotals(expenses: ExpenseLike[]): CategoryTotal[] {
-  const grouped: Record<string, number> = {};
-
-  for (const expense of expenses) {
-    const current = grouped[expense.category] ?? 0;
-    grouped[expense.category] = current + expense.amount;
+function mergeSortedByCategory(left: ExpenseLike[], right: ExpenseLike[]): ExpenseLike[] {
+  const out: ExpenseLike[] = [];
+  let i = 0;
+  let j = 0;
+  while (i < left.length && j < right.length) {
+    if (left[i].category.localeCompare(right[j].category) <= 0) {
+      out.push(left[i]);
+      i += 1;
+    } else {
+      out.push(right[j]);
+      j += 1;
+    }
   }
+  while (i < left.length) {
+    out.push(left[i]);
+    i += 1;
+  }
+  while (j < right.length) {
+    out.push(right[j]);
+    j += 1;
+  }
+  return out;
+}
 
-  return Object.entries(grouped).map(([category, total]) => ({
-    category,
-    total: Number(total.toFixed(2))
-  }));
+/** Merge sort by category (lexicographic), O(n log n) comparisons. */
+function mergeSortByCategory(items: ExpenseLike[]): ExpenseLike[] {
+  if (items.length <= 1) {
+    return items;
+  }
+  const mid = Math.floor(items.length / 2);
+  const left = mergeSortByCategory(items.slice(0, mid));
+  const right = mergeSortByCategory(items.slice(mid));
+  return mergeSortedByCategory(left, right);
+}
+
+/** Single pass over sorted-by-category rows to sum consecutive equal categories. */
+function aggregateSortedByCategory(sorted: ExpenseLike[]): CategoryTotal[] {
+  if (sorted.length === 0) {
+    return [];
+  }
+  const result: CategoryTotal[] = [];
+  let category = sorted[0].category;
+  let sum = sorted[0].amount;
+  for (let k = 1; k < sorted.length; k += 1) {
+    const row = sorted[k];
+    if (row.category === category) {
+      sum += row.amount;
+    } else {
+      result.push({ category, total: Number(sum.toFixed(2)) });
+      category = row.category;
+      sum = row.amount;
+    }
+  }
+  result.push({ category, total: Number(sum.toFixed(2)) });
+  return result;
+}
+
+// Algorithm 1: merge sort by category, then linear merge-aggregation of totals.
+export function calculateCategoryTotals(expenses: ExpenseLike[]): CategoryTotal[] {
+  const sorted = mergeSortByCategory([...expenses]);
+  return aggregateSortedByCategory(sorted);
 }

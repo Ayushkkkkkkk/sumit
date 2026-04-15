@@ -65,17 +65,18 @@ This project is a full-stack personal finance tracker where authenticated users 
 
 File: `backend/src/algorithms/categoryTotals.ts`
 
-- takes all expense records
-- groups by category
-- calculates total amount for each category
+- **Merge sort** expenses by category name (O(n log n))
+- **Linear scan** over the sorted list to merge consecutive rows with the same category and sum amounts
 
-### Algorithm 2: Budget alert detection
+### Algorithm 2: Budget alert with end-of-month prediction
 
 File: `backend/src/algorithms/budgetAlert.ts`
 
-- calculates total expense
-- compares with monthly budget
-- returns one of: `normal`, `near_limit`, `over_budget`
+- Uses **this calendar month’s** expenses (amount + timestamp)
+- Builds cumulative spend versus time-in-month (normalized to 0..1)
+- Fits **ordinary least squares (OLS)** linear regression \(y \approx a + bx\) on those points and **extrapolates** to month end (\(x = 1\)) to get **predicted end-of-month spend**
+- Compares **month-to-date** and **prediction** to the monthly budget (90% → `near_limit`, over 100% → `over_budget`)
+- Returns `normal`, `near_limit`, or `over_budget` plus the forecast figure for the UI
 
 ## Backend API (Simple REST)
 

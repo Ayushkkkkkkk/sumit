@@ -32,8 +32,9 @@ export type CategoryTotal = {
 };
 
 export type BudgetAlert = {
-  totalExpense: number;
+  monthToDateExpense: number;
   monthlyBudget: number;
+  predictedEndOfMonthExpense: number;
   status: "normal" | "near_limit" | "over_budget";
 };
 

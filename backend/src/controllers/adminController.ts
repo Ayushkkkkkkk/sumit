@@ -2,11 +2,10 @@ import type { Request, Response } from "express";
 import { prisma } from "../utils/prisma.js";
 import { calculateCategoryTotals } from "../algorithms/categoryTotals.js";
 import { detectBudgetAlert } from "../algorithms/budgetAlert.js";
+import { getCalendarMonthRange } from "../utils/monthRange.js";
 
 export async function getAdminOverview(_req: Request, res: Response): Promise<void> {
-  const startOfMonth = new Date();
-  startOfMonth.setDate(1);
-  startOfMonth.setHours(0, 0, 0, 0);
+  const { start: startOfMonth, endExclusive: endOfMonthExclusive } = getCalendarMonthRange();
 
   const [users, expenseAggregate, incomeAggregate, budgetAggregate, allExpenses, recentExpenses, recentIncomes] =
     await Promise.all([
@@ -34,8 +33,8 @@ export async function getAdminOverview(_req: Request, res: Response): Promise<vo
       id: true,
       budget: { select: { monthlyBudget: true } },
       expenses: {
-        where: { createdAt: { gte: startOfMonth } },
-        select: { amount: true }
+        where: { createdAt: { gte: startOfMonth, lt: endOfMonthExclusive } },
+        select: { amount: true, createdAt: true }
       }
     }
   });
@@ -48,8 +47,7 @@ export async function getAdminOverview(_req: Request, res: Response): Promise<vo
   };
 
   for (const item of usersWithBudget) {
-    const monthExpense = item.expenses.reduce((sum, expense) => sum + expense.amount, 0);
-    const status = detectBudgetAlert(monthExpense, item.budget?.monthlyBudget ?? 0).status;
+    const status = detectBudgetAlert(item.expenses, item.budget?.monthlyBudget ?? 0).status;
     budgetHealth[status] += 1;
   }
 

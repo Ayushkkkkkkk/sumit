@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { prisma } from "../utils/prisma.js";
 import { calculateCategoryTotals } from "../algorithms/categoryTotals.js";
 import { detectBudgetAlert } from "../algorithms/budgetAlert.js";
+import { getCalendarMonthRange } from "../utils/monthRange.js";
 
 function getUserId(req: Request): number {
   if (!req.user?.userId) {
@@ -94,8 +95,16 @@ export async function getDashboard(req: Request, res: Response): Promise<void> {
   const remainingBalance = totalIncome - totalExpense;
   const monthlyBudget = budget?.monthlyBudget ?? 0;
 
+  const { start: monthStart, endExclusive: monthEndExclusive } = getCalendarMonthRange();
+  const monthExpenses = expenses.filter(
+    (item) => item.createdAt >= monthStart && item.createdAt < monthEndExclusive
+  );
+
   const categoryTotals = calculateCategoryTotals(expenses);
-  const budgetAlert = detectBudgetAlert(totalExpense, monthlyBudget);
+  const budgetAlert = detectBudgetAlert(
+    monthExpenses.map((item) => ({ amount: item.amount, createdAt: item.createdAt })),
+    monthlyBudget
+  );
 
   res.json({
     totals: {

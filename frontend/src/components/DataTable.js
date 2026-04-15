@@ -1,0 +1,4 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export function DataTable({ title, rows, kind }) {
+    return (_jsxs("section", { className: "card", children: [_jsx("h3", { children: title }), _jsxs("table", { className: "table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "Amount" }), _jsx("th", { children: kind === "expense" ? "Category" : "Source" }), _jsx("th", { children: "Description" }), _jsx("th", { children: "Date" })] }) }), _jsx("tbody", { children: rows.length === 0 ? (_jsx("tr", { children: _jsx("td", { colSpan: 4, className: "empty-cell", children: "No records yet." }) })) : (rows.map((row) => (_jsxs("tr", { children: [_jsxs("td", { children: ["$", row.amount.toFixed(2)] }), _jsx("td", { children: kind === "expense" ? row.category : row.source }), _jsx("td", { children: row.description ?? "-" }), _jsx("td", { children: new Date(row.createdAt).toLocaleDateString() })] }, row.id)))) })] })] }));
+}
